@@ -1,6 +1,7 @@
 from soar_sdk.abstract import SOARClient
 from soar_sdk.app import App
 from soar_sdk.asset import AssetField, BaseAsset
+from soar_sdk.action_results import ActionOutput
 from soar_sdk.logging import getLogger
 
 from falconpy import CustomIOA, Result
@@ -47,6 +48,25 @@ def test_connectivity(soar: SOARClient, asset: Asset) -> None:
     logger.info("querying valid ioa platforms to ensure connectivity")
     platforms: Result = client.query_platforms()
     logger.info(f"found {len(platforms)} platforms")
+
+
+class ListPlatformsOutput(ActionOutput):
+    """
+    Output class for listing platforms.
+    """
+
+    resources: list[str]
+
+
+@app.action()
+def list_platforms(soar: SOARClient, asset: Asset) -> None:
+    """
+    List all valid IOA platforms.
+    """
+    logger.info("listing valid IOA platforms")
+    client = asset.get_client()
+    platforms: Result = client.query_platforms()
+    return ListPlatformsOutput(**platforms)
 
 
 if __name__ == "__main__":
