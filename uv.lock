@@ -202,10 +202,24 @@ wheels = [
 ]
 
 [[package]]
+name = "crowdstrike-falconpy"
+version = "1.5.3"
+source = { registry = "https://pypi.python.org/simple" }
+dependencies = [
+    { name = "requests", marker = "(python_full_version < '3.10' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'linux')" },
+    { name = "urllib3", marker = "(python_full_version < '3.10' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'linux')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/21/86/f59d51268210d5b457b6f136d5aec1158aca22bf1b55d7092dd3d0ff6cc3/crowdstrike_falconpy-1.5.3.tar.gz", hash = "sha256:35a59b304f43fa51fb7353d224f4fab7d7bd41095de496466e84fc9fc3c46d41", size = 9242819, upload-time = "2025-06-16T04:24:44.664Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/0a/8bc4d0b340104ff111d043d24dc3714f33ced53c6c956cbe0dcf30321afc/crowdstrike_falconpy-1.5.3-py3-none-any.whl", hash = "sha256:138c2110c471d750da4a1339cf97327da122b3dbf091216db68e9f93758b3b6f", size = 885759, upload-time = "2025-06-16T04:24:40.501Z" },
+]
+
+[[package]]
 name = "crowdstrike-ioa-sdk"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "crowdstrike-falconpy", marker = "(python_full_version < '3.10' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "splunk-soar-sdk", marker = "(python_full_version < '3.10' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'arm64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'darwin') or (python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version >= '3.13' and platform_machine == 'x86_64' and sys_platform == 'linux')" },
 ]
 
@@ -221,7 +235,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "splunk-soar-sdk" }]
+requires-dist = [
+    { name = "crowdstrike-falconpy", specifier = ">=1.5.3" },
+    { name = "splunk-soar-sdk" },
+]
 
 [package.metadata.requires-dev]
 dev = [

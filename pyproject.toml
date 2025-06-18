@@ -9,6 +9,7 @@ authors = [
     { name = "Scott Odle", email = "sodle@cisco.com" }
 ]
 dependencies = [
+    "crowdstrike-falconpy>=1.5.3",
     "splunk-soar-sdk",
 ]
 

@@ -3,6 +3,8 @@ from soar_sdk.app import App
 from soar_sdk.asset import AssetField, BaseAsset
 from soar_sdk.logging import getLogger
 
+from falconpy import CustomIOA, Result
+
 logger = getLogger()
 
 
@@ -10,6 +12,17 @@ class Asset(BaseAsset):
     base_url: str = AssetField(default="https://api.crowdstrike.com")
     client_id: str
     client_secret: str = AssetField(sensitive=True)
+
+    def get_client(self) -> CustomIOA:
+        """
+        Returns a CustomIOA client instance using the asset's credentials.
+        """
+        return CustomIOA(
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            base_url=self.base_url,
+            pythonic=True,
+        )
 
 
 app = App(
@@ -29,6 +42,11 @@ app = App(
 @app.test_connectivity()
 def test_connectivity(soar: SOARClient, asset: Asset) -> None:
     logger.info(f"testing connectivity against {asset.base_url}")
+    client = asset.get_client()
+    logger.info("created crowdstrike client successfully")
+    logger.info("querying valid ioa platforms to ensure connectivity")
+    platforms: Result = client.query_platforms()
+    logger.info(f"found {len(platforms)} platforms")
 
 
 if __name__ == "__main__":
