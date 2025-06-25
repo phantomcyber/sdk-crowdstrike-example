@@ -1,0 +1,181 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test Connectivity",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "args": [
+                "action",
+                "test-connectivity",
+                "-a",
+                "${workspaceFolder}/test_asset.json"
+            ]
+        },
+        {
+            "name": "List Platforms",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "list-platforms",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/empty.json"
+            ]
+        },
+        {
+            "name": "List Severities",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "list-severities",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/empty.json"
+            ]
+        },
+        {
+            "name": "List Rule Types",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "list-rule-types",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/empty.json"
+            ]
+        },
+        {
+            "name": "List Rule Groups",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "list-rule-groups",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/empty.json"
+            ]
+        },
+        {
+            "name": "Create Rule Group",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "create-rule-group",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/create_rule_group.json"
+            ]
+        },
+        {
+            "name": "Update Rule Group",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "update-rule-group",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/update_rule_group.json"
+            ]
+        },
+        {
+            "name": "Delete Rule Group",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "delete-rule-group",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/delete_rule_group.json"
+            ]
+        },
+        {
+            "name": "Create Rule",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "create-rule",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/create_rule.json"
+            ]
+        },
+        {
+            "name": "Update Rule",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "update-rule",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/update_rule.json"
+            ]
+        },
+        {
+            "name": "Delete Rule",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "action",
+                "delete-rule",
+                "-a",
+                "${workspaceFolder}/test_asset.json",
+                "-p",
+                "${workspaceFolder}/test_params/delete_rule.json"
+            ]
+        }
+    ]
+}

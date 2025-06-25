@@ -1,0 +1,9 @@
+{
+    "id": "4642f7526cd345098715755a3ad8ee1d",
+    "name": "Test Rule Group SDK",
+    "platform": "windows",
+    "enabled": true,
+    "description": "This is a test rule group created via SDK",
+    "version": 2,
+    "comment": "Test updating rule group via SDK"
+}

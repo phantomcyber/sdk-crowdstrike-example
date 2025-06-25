@@ -1,0 +1,6 @@
+{
+    "name": "Test Rule Group SDK",
+    "platform": "windows",
+    "enabled": true,
+    "description": "This is a test rule group created via SDK"
+}

@@ -1,0 +1,11 @@
+{
+    "rulegroup_id": "1f143f0359334d0589842e1ce9ac870f",
+    "name": "Test rule",
+    "description": "Test rule from SDK",
+    "severity": "critical",
+    "ruletype_id": "1",
+    "disposition_id": 10,
+    "field_values": "[{\"name\":\"CommandLine\",\"label\":\"Command Line\",\"type\":\"excludable\",\"values\":[{\"label\":\"include\",\"value\":\"Chrome.*\"}]}]",
+    "comment": "Test",
+    "enabled": true
+}
