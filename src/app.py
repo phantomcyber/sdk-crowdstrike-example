@@ -1,5 +1,4 @@
 import json
-from soar_sdk.abstract import SOARClient
 from soar_sdk.app import App
 from soar_sdk.asset import AssetField, BaseAsset
 from soar_sdk.params import Params, Param
@@ -45,7 +44,7 @@ app = App(
 
 
 @app.test_connectivity()
-def test_connectivity(soar: SOARClient, asset: Asset) -> None:
+def test_connectivity(asset: Asset) -> None:
     logger.info(f"testing connectivity against {asset.base_url}")
     client = asset.get_client()
     logger.info("created crowdstrike client successfully")
@@ -59,9 +58,7 @@ class ListPlatformsOutput(ActionOutput):
 
 
 @app.action()
-def list_platforms(
-    params: Params, soar: SOARClient, asset: Asset
-) -> ListPlatformsOutput:
+def list_platforms(params: Params, asset: Asset) -> ListPlatformsOutput:
     """
     List all valid IOA platforms.
     """
@@ -136,9 +133,7 @@ class ListGroupsOutput(ActionOutput):
 
 
 @app.action()
-def list_rule_groups(
-    params: ListGroupsParameters, soar: SOARClient, asset: Asset
-) -> ListGroupsOutput:
+def list_rule_groups(params: ListGroupsParameters, asset: Asset) -> ListGroupsOutput:
     """
     List IOA rule groups.
     """
@@ -177,7 +172,7 @@ class CreateUpdateGroupOutput(ActionOutput):
 
 @app.action()
 def create_rule_group(
-    params: CreateGroupParams, soar: SOARClient, asset: Asset
+    params: CreateGroupParams, asset: Asset
 ) -> CreateUpdateGroupOutput:
     """
     Create a new IOA rule group.
@@ -224,7 +219,7 @@ class UpdateGroupParams(Params):
 
 @app.action()
 def update_rule_group(
-    params: UpdateGroupParams, soar: SOARClient, asset: Asset
+    params: UpdateGroupParams, asset: Asset
 ) -> CreateUpdateGroupOutput:
     """
     Update an existing IOA rule group.
@@ -254,9 +249,7 @@ class DeleteGroupParams(Params):
 
 
 @app.action()
-def delete_rule_group(
-    params: DeleteGroupParams, soar: SOARClient, asset: Asset
-) -> ActionOutput:
+def delete_rule_group(params: DeleteGroupParams, asset: Asset) -> ActionOutput:
     """
     Delete an existing IOA rule group.
     """
@@ -297,9 +290,7 @@ class CreateUpdateRuleOutput(ActionOutput):
 
 
 @app.action()
-def create_rule(
-    params: CreateRuleParams, soar: SOARClient, asset: Asset
-) -> CreateUpdateRuleOutput:
+def create_rule(params: CreateRuleParams, asset: Asset) -> CreateUpdateRuleOutput:
     """
     Create a new IOA rule in the specified group.
     """
@@ -356,9 +347,7 @@ class UpdateRuleParams(Params):
 
 
 @app.action()
-def update_rule(
-    params: UpdateRuleParams, soar: SOARClient, asset: Asset
-) -> CreateUpdateRuleOutput:
+def update_rule(params: UpdateRuleParams, asset: Asset) -> CreateUpdateRuleOutput:
     """
     Update an existing IOA rule.
     """
@@ -406,9 +395,7 @@ class DeleteRuleParams(Params):
 
 
 @app.action()
-def delete_rule(
-    params: DeleteRuleParams, soar: SOARClient, asset: Asset
-) -> ActionOutput:
+def delete_rule(params: DeleteRuleParams, asset: Asset) -> ActionOutput:
     """
     Delete an existing IOA rule.
     """
@@ -431,9 +418,7 @@ class ListSeveritiesOutput(ActionOutput):
 
 
 @app.action()
-def list_severities(
-    params: Params, soar: SOARClient, asset: Asset
-) -> ListSeveritiesOutput:
+def list_severities(params: Params, asset: Asset) -> ListSeveritiesOutput:
     """
     List all valid IOA severities.
     """
@@ -476,9 +461,7 @@ class ListRuleTypesOutput(ActionOutput):
 
 
 @app.action()
-def list_rule_types(
-    params: Params, soar: SOARClient, asset: Asset
-) -> ListRuleTypesOutput:
+def list_rule_types(params: Params, asset: Asset) -> ListRuleTypesOutput:
     """
     List all valid IOA rule types.
     """
