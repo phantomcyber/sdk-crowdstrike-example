@@ -1,5 +1,5 @@
 [project]
-name = "crowdstrike_ioa_sdk"
+name = "crowdstrike-ioa-sdk"
 version = "0.1.0"
 description = "Custom IOA functionality from the CrowdStrike app, re-implemented in the SOAR SDK"
 license = "Copyright (c) Splunk Inc., 2025"
