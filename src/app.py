@@ -5,7 +5,7 @@ from soar_sdk.params import Params, Param
 from soar_sdk.action_results import ActionOutput, OutputField
 from soar_sdk.logging import getLogger
 
-from typing import Optional
+# from typing import Optional
 
 from falconpy import CustomIOA, Result
 
@@ -69,7 +69,7 @@ def list_platforms(params: Params, asset: Asset) -> ListPlatformsOutput:
 
 
 class ListGroupsParameters(Params):
-    fql_query: Optional[str] = Param(description="FQL query to filter groups")
+    fql_query: str = Param(description="FQL query to filter groups", required=False)
 
 
 class IoaFieldValue(ActionOutput):
@@ -157,12 +157,13 @@ def list_rule_groups(params: ListGroupsParameters, asset: Asset) -> ListGroupsOu
 
 class CreateGroupParams(Params):
     name: str
-    description: Optional[str]
+    description: str = Param(required=False)
     platform: str
     enabled: bool
-    policy_id: Optional[str] = Param(
+    policy_id: str = Param(
         description="Prevention Policy ID to assign the new group to",
         cef_types=["crowdstrike prevention policy id"],
+        required=False,
     )
 
 
@@ -339,11 +340,11 @@ class UpdateRuleParams(Params):
         cef_types=["crowdstrike ioa rule id"],
     )
     comment: str
-    name: Optional[str]
-    description: Optional[str]
-    severity: Optional[str]
-    disposition_id: Optional[int]
-    field_values: Optional[str]
+    name: str = Param(required=False)
+    description: str = Param(required=False)
+    severity: str = Param(required=False)
+    disposition_id: int = Param(required=False)
+    field_values: str = Param(required=False)
 
 
 @app.action()
