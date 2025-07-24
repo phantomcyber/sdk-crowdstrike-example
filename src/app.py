@@ -1,13 +1,29 @@
 import json
+from falconpy import CustomIOA, Result
+
 from soar_sdk.app import App
 from soar_sdk.asset import AssetField, BaseAsset
-from soar_sdk.params import Params, Param
-from soar_sdk.action_results import ActionOutput, OutputField
+from soar_sdk.params import Params
+from soar_sdk.action_results import ActionOutput
 from soar_sdk.logging import getLogger
 
-# from typing import Optional
-
-from falconpy import CustomIOA, Result
+from src.params import (
+    CreateGroupParams,
+    CreateRuleParams,
+    DeleteGroupParams,
+    DeleteRuleParams,
+    ListGroupsParameters,
+    UpdateGroupParams,
+    UpdateRuleParams,
+)
+from src.outputs import (
+    CreateUpdateGroupOutput,
+    CreateUpdateRuleOutput,
+    ListGroupsOutput,
+    ListPlatformsOutput,
+    ListRuleTypesOutput,
+    ListSeveritiesOutput,
+)
 
 logger = getLogger()
 
@@ -53,10 +69,6 @@ def test_connectivity(asset: Asset) -> None:
     logger.info(f"found {len(platforms)} platforms")
 
 
-class ListPlatformsOutput(ActionOutput):
-    platforms: list[str]
-
-
 @app.action()
 def list_platforms(params: Params, asset: Asset) -> ListPlatformsOutput:
     """
@@ -66,70 +78,6 @@ def list_platforms(params: Params, asset: Asset) -> ListPlatformsOutput:
     client = asset.get_client()
     platforms: Result = client.query_platforms()
     return ListPlatformsOutput(platforms=platforms.data)
-
-
-class ListGroupsParameters(Params):
-    fql_query: str = Param(description="FQL query to filter groups", required=False)
-
-
-class IoaFieldValue(ActionOutput):
-    label: str
-    value: str
-
-
-class IoaFieldValues(ActionOutput):
-    name: str
-    value: str
-    label: str
-    final_value: str
-    values: list[IoaFieldValue]
-
-
-class IoaRule(ActionOutput):
-    instance_id: str = OutputField(cef_types=["crowdstrike ioa rule id"])
-    customer_id: str = OutputField(cef_types=["crowdstrike customer id"])
-    ruletype_id: str = OutputField(cef_types=["crowdstrike ioa rule type id"])
-    ruletype_name: str
-    comment: str
-    enabled: bool
-    deleted: bool
-    magic_cookie: int
-    rulegroup_id: str = OutputField(cef_types=["crowdstrike ioa rule group id"])
-    version_ids: list[str]
-    instance_version: int
-    name: str
-    description: str
-    pattern_id: str = OutputField(cef_types=["crowdstrike ioa pattern id"])
-    pattern_severity: str
-    action_label: str
-    disposition_id: int
-    created_by: str = OutputField(cef_types=["crowdstrike user id", "email"])
-    created_on: str
-    modified_by: str = OutputField(cef_types=["crowdstrike user id", "email"])
-    modified_on: str
-    field_values: list[IoaFieldValues]
-
-
-class IoaGroup(ActionOutput):
-    id: str = OutputField(cef_types=["crowdstrike ioa rule group id"])
-    customer_id: str = OutputField(cef_types=["crowdstrike customer id"])
-    enabled: bool
-    name: str
-    description: str
-    platform: str
-    deleted: bool
-    comment: str
-    version: int
-    created_by: str = OutputField(cef_types=["crowdstrike user id", "email"])
-    created_on: str
-    modified_by: str = OutputField(cef_types=["crowdstrike user id", "email"])
-    modified_on: str
-    rule_ids: list[str] = OutputField(cef_types=["crowdstrike ioa rule id"])
-    rules: list[IoaRule]
-
-
-class ListGroupsOutput(ActionOutput):
-    rule_groups: list[IoaGroup]
 
 
 @app.action()
@@ -153,22 +101,6 @@ def list_rule_groups(params: ListGroupsParameters, asset: Asset) -> ListGroupsOu
         offset = result.offset
 
     return ListGroupsOutput(rule_groups=rule_groups)
-
-
-class CreateGroupParams(Params):
-    name: str
-    description: str = Param(required=False)
-    platform: str
-    enabled: bool
-    policy_id: str = Param(
-        description="Prevention Policy ID to assign the new group to",
-        cef_types=["crowdstrike prevention policy id"],
-        required=False,
-    )
-
-
-class CreateUpdateGroupOutput(ActionOutput):
-    group: IoaGroup
 
 
 @app.action()
@@ -206,18 +138,6 @@ def create_rule_group(
     return CreateUpdateGroupOutput(group=group)
 
 
-class UpdateGroupParams(Params):
-    id: str = Param(
-        description="ID of the IOA rule group to update",
-        cef_types=["crowdstrike ioa rule group id"],
-    )
-    version: int = Param(description="Latest version of the group")
-    name: str
-    description: str
-    enabled: bool
-    comment: str
-
-
 @app.action()
 def update_rule_group(
     params: UpdateGroupParams, asset: Asset
@@ -241,14 +161,6 @@ def update_rule_group(
     return CreateUpdateGroupOutput(group=group)
 
 
-class DeleteGroupParams(Params):
-    id: str = Param(
-        description="ID of the IOA rule group to delete",
-        cef_types=["crowdstrike ioa rule group id"],
-    )
-    comment: str = Param(description="Comment for deletion")
-
-
 @app.action()
 def delete_rule_group(params: DeleteGroupParams, asset: Asset) -> ActionOutput:
     """
@@ -263,31 +175,6 @@ def delete_rule_group(params: DeleteGroupParams, asset: Asset) -> ActionOutput:
     )
 
     return ActionOutput()
-
-
-class CreateRuleParams(Params):
-    rulegroup_id: str = Param(
-        description="ID of the IOA rule group to add the rule to",
-        cef_types=["crowdstrike ioa rule group id"],
-    )
-    name: str
-    description: str
-    severity: str
-    ruletype_id: str = Param(
-        description="Rule type to create (valid rule types can be fetched using the 'list rule types' action)",
-    )
-    disposition_id: int = Param(
-        description="The action that the rule should take (valid dispositions can be fetched using the 'list rule types' action)",
-    )
-    field_values: str = Param(
-        description="JSON list of parameter values for the rule (valid values can be fetched using the 'list rule types' action)",
-    )
-    comment: str
-    enabled: bool
-
-
-class CreateUpdateRuleOutput(ActionOutput):
-    rule: IoaRule
 
 
 @app.action()
@@ -329,24 +216,6 @@ def create_rule(params: CreateRuleParams, asset: Asset) -> CreateUpdateRuleOutpu
     return CreateUpdateRuleOutput(rule=rule)
 
 
-class UpdateRuleParams(Params):
-    rulegroup_id: str = Param(
-        description="ID of the IOA rule group that contains the rule",
-        cef_types=["crowdstrike ioa rule group id"],
-    )
-    rulegroup_version: int
-    instance_id: str = Param(
-        description="ID of the IOA rule to update",
-        cef_types=["crowdstrike ioa rule id"],
-    )
-    comment: str
-    name: str = Param(required=False)
-    description: str = Param(required=False)
-    severity: str = Param(required=False)
-    disposition_id: int = Param(required=False)
-    field_values: str = Param(required=False)
-
-
 @app.action()
 def update_rule(params: UpdateRuleParams, asset: Asset) -> CreateUpdateRuleOutput:
     """
@@ -383,18 +252,6 @@ def update_rule(params: UpdateRuleParams, asset: Asset) -> CreateUpdateRuleOutpu
             return CreateUpdateRuleOutput(rule=rule)
 
 
-class DeleteRuleParams(Params):
-    rulegroup_id: str = Param(
-        description="ID of the IOA rule group that contains the rule",
-        cef_types=["crowdstrike ioa rule group id"],
-    )
-    instance_id: str = Param(
-        description="ID of the IOA rule to delete",
-        cef_types=["crowdstrike ioa rule id"],
-    )
-    comment: str
-
-
 @app.action()
 def delete_rule(params: DeleteRuleParams, asset: Asset) -> ActionOutput:
     """
@@ -414,10 +271,6 @@ def delete_rule(params: DeleteRuleParams, asset: Asset) -> ActionOutput:
     return ActionOutput()
 
 
-class ListSeveritiesOutput(ActionOutput):
-    severities: list[str]
-
-
 @app.action()
 def list_severities(params: Params, asset: Asset) -> ListSeveritiesOutput:
     """
@@ -427,38 +280,6 @@ def list_severities(params: Params, asset: Asset) -> ListSeveritiesOutput:
     client = asset.get_client()
     severities = client.query_patterns()
     return ListSeveritiesOutput(severities=severities.data)
-
-
-class IoaRuleDisposition(ActionOutput):
-    id: int
-    label: str
-
-
-class IoaFieldOption(ActionOutput):
-    label: str
-    value: str
-
-
-class IoaField(ActionOutput):
-    name: str
-    label: str
-    type: str
-    options: list[IoaFieldOption]
-
-
-class IoaRuleType(ActionOutput):
-    id: str
-    name: str
-    channel: int
-    long_desc: str
-    released: bool
-    platform: str
-    fields: list[IoaField]
-    disposition_map: list[IoaRuleDisposition]
-
-
-class ListRuleTypesOutput(ActionOutput):
-    rule_types: list[IoaRuleType]
 
 
 @app.action()
