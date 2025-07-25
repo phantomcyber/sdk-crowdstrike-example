@@ -7,7 +7,7 @@ from soar_sdk.params import Params
 from soar_sdk.action_results import ActionOutput
 from soar_sdk.logging import getLogger
 
-from src.params import (
+from .params import (
     CreateGroupParams,
     CreateRuleParams,
     DeleteGroupParams,
@@ -16,7 +16,7 @@ from src.params import (
     UpdateGroupParams,
     UpdateRuleParams,
 )
-from src.outputs import (
+from .outputs import (
     CreateUpdateGroupOutput,
     CreateUpdateRuleOutput,
     ListGroupsOutput,
